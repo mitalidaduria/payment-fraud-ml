@@ -4,7 +4,7 @@ End-to-end payment fraud detection pipeline for highly imbalanced FinTech data (
 
 > **Production-grade machine learning pipeline for payment fraud detection — EDA to serving.**
 
-A real-world FinTech ML pipeline handling extreme class imbalance (1.72% fraud rate), temporal velocity signals, and business-focused PR-AUC evaluation—moving beyond standard toy datasets like Iris or MNIST.
+A real-world FinTech ML pipeline handling extreme class imbalance (1.72% fraud rate), temporal velocity signals, and business-focused PR-AUC evaluation.
 
 ---
 

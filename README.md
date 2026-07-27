@@ -1,36 +1,41 @@
-# payment-fraud-ml
-End-to-end payment fraud detection pipeline for highly imbalanced FinTech data (1.72% fraud rate) using XGBoost, SHAP, and FastAPI.
-# payment-fraud-ml
+#  Payment Fraud ML Pipeline
 
-> **Production-grade machine learning pipeline for payment fraud detection — EDA to serving.**
+[![Python Tests](https://github.com/mitalidaduria/payment-fraud-ml/workflows/tests.yml/badge.svg)](https://github.com/mitalidaduria/payment-fraud-ml/actions/workflows/tests.yml)
 
-A real-world FinTech ML pipeline handling extreme class imbalance (1.72% fraud rate), temporal velocity signals, and business-focused PR-AUC evaluation.
+An end-to-end FinTech machine learning framework featuring a domain-driven feature engineering pipeline and automated cloud CI/CD verification.
 
 ---
 
-##  Key Domain Insight: Why Accuracy is Useless
+##  Feature Engineering Architecture (`PaymentFeatureEngineer`)
 
-In card-present transactions, the baseline fraud rate is approximately **1.72%**. 
+Wrapped in an `sklearn`-compatible transformer (`BaseEstimator`, `TransformerMixin`) to learn baseline statistics strictly during `fit()` on training data, preventing training-serving skew and data leakage.
 
-A naive model predicting `is_fraud = 0` (no fraud) for every transaction achieves **98.28% accuracy**, yet catches **0% of fraud** and incurs massive financial losses. 
+###  Engineered Domain Feature Matrix (20 Features)
 
-Therefore, this repository optimizes for **Precision-Recall Area Under Curve (PR-AUC)** and **Cost-Sensitive Thresholding** rather than accuracy.
+| Category | Feature Name | Business Rationale |
+| :--- | :--- | :--- |
+| **Temporal** | `is_night` | Fraud spikes between 00:00–05:00. |
+| | `is_peak_business` | Standard business hours benchmark (09:00–17:00). |
+| | `is_weekend` | Non-standard trading window indicator. |
+| **Amount & Anomaly** | `amount_log` | Normalizes heavily right-skewed transaction amounts. |
+| | `amount_zscore` | Standardized deviation calculated using training statistics. |
+| | `is_micro_txn` | Detects card testing (< £10.00). |
+| | `is_large_txn` | High-value target transactions (≥ £4,500.00). |
+| | `is_round_amount` | Flags round numbers often seen in automated script testing. |
+| **Velocity Metrics** | `is_high_velocity` | Exceeds 95th percentile transaction frequency threshold. |
+| | `velocity_log` | Normalized hourly transaction count. |
+| **Account Risk** | `is_new_account` | High risk window (< 30 days account age). |
+| | `account_age_log` | Scaled continuous account maturity. |
+| **Interaction Signals** | `night_velocity` | Combines off-hours activity with high transaction speed. |
+| | `intl_large` | Cross-border high-value transaction risk flag. |
+| | `new_acct_night` | High-risk new account nocturnal activity. |
+| | `prev_fail_risk` | Unsettled account with recent failed transactions. |
 
 ---
 
-##  Repository Architecture
+##  Testing & CI Pipeline
 
-```text
-payment-fraud-ml/
-├── src/
-│   ├── data/          # Synthetic transaction generator & data ingestion
-│   ├── features/      # Feature engineering (velocity metrics, ratios)
-│   ├── models/        # Model training pipelines (XGBoost, LightGBM)
-│   ├── evaluation/    # PR-AUC, confusion matrix, cost-sensitive analysis
-│   └── serving/       # FastAPI REST endpoint for live inference
-├── tests/             # Unit tests with pytest
-├── notebooks/         # Exploratory Data Analysis (EDA) & SHAP explainability
-├── scripts/           # Execution & training automation scripts
-├── reports/           # Saved evaluation metrics & figures
-├── requirements.txt   # Core Python dependencies
-└── README.md
+Automated with GitHub Actions on Python 3.10:
+* **Data Leakage Check:** Verifies Z-score standardization parameters derive strictly from training subsets.
+* **Flag Accuracy Check:** Validates exact condition matching on card-testing thresholds.
+* **Shape Verification:** Confirms matrix expansion consistency across fits.

@@ -16,4 +16,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install scikit-learn pandas pytest
       - name: Run Pytest
-        run: pytest tests/ -v
+        env:
+          PYTHONPATH: .
+        run: python -m pytest tests/ -v

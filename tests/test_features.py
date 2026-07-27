@@ -7,10 +7,9 @@ def test_no_data_leakage():
     df = generate_payment_data(DataConfig(n_samples=500))
     X = df.drop('is_fraud', axis=1)
     fe = PaymentFeatureEngineer()
-    fe.fit(X.iloc[:400])          # fit on train only
+    fe.fit(X.iloc[:400])  # fit on train only
     X_test = fe.transform(X.iloc[400:])  # transform test
-    assert 'amount_zscore' in X_test.columns
-    # amount_zscore uses training mean/std, not test statistics
+    assert 'amount_zscore' in X_test.columns  # amount_zscore uses training mean/std
 
 def test_micro_txn_flag():
     df = generate_payment_data(DataConfig(n_samples=200))

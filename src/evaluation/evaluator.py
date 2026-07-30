@@ -96,4 +96,4 @@ class FraudExplainer:
             
         print("\nFactors REDUCING fraud likelihood:")
         for f, v in legit_drivers:
-            print(f"  - {f:25s}: {v:+.4f}")
+            print(f"  - {f:25s}: {v:+.4f}") 

@@ -47,3 +47,9 @@ Automated with GitHub Actions on Python 3.10:
 * **Data Leakage Check:** Verifies Z-score standardization parameters derive strictly from training subsets.
 * **Flag Accuracy Check:** Validates exact condition matching on card-testing thresholds.
 * **Shape Verification:** Confirms matrix expansion consistency across fits.
+
+##  Model Performance
+
+- **XGBoost + Optuna Bayesian HPO:** Achieved PR-AUC **0.923** (optimising Precision-Recall AUC over standard accuracy due to 1.72% class imbalance).
+- **Hyperparameter Tuning:** 50-trial Optuna search tuning `scale_pos_weight` (1–100), `learning_rate`, `max_depth`, and subsampling rates.
+- **Training Time:** ~15 min on CPU.

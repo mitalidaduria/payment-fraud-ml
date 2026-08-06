@@ -1,3 +1,4 @@
+[![CI](https://github.com/mitalidaduria/payment-fraud-ml/actions/workflows/main.yml/badge.svg)](https://github.com/mitalidaduria/payment-fraud-ml/actions)
 # Payment Fraud ML Pipeline
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)

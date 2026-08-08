@@ -9,7 +9,7 @@
 
 > **67% of payment fraud occurs between midnight and 05:00 — this repository builds the domain-driven ML system to detect it.**
 
-## 📊 Key EDA Insights
+##  Key EDA Insights
 * **Off-Hours Spike:** Fraudulent activity peaks between 00:00–05:00 when manual review windows are minimal.
 * **Card Testing Patterns:** High volume of micro-transactions (< £10.00) followed immediately by high-value transactions (≥ £4,500.00).
 * **Severe Class Imbalance:** Fraud accounts for ~1–2% of total transactions, making Precision-Recall evaluation critical over standard ROC-AUC metrics.
